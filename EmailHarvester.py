@@ -140,7 +140,7 @@ class EmailHarvester(object):
                 # proxies = {self.proxy.scheme: "http://" + self.proxy.netloc}
                 r = requests.get(urly, headers=headers, proxies=proxies, timeout=10)
             else:
-                r = requests.get(urly, headers=headers, proxies=proxies, timeout=10)
+                r = requests.get(urly, headers=headers, timeout=10)
 
             if r.encoding is None:
                 r.encoding = 'UTF-8'

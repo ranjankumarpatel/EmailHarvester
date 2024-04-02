@@ -21,25 +21,30 @@
     For more see the file 'LICENSE' for copying permission.
 """
 
-import requests
-import time
 import sys
+import time
+
+import requests
 from termcolor import colored
 
 config = None
 app_emailharvester = None
 
+
 def green(text):
     return colored(text, 'green', attrs=['bold'])
+
 
 def red(text):
     return colored(text, 'red', attrs=['bold'])
 
+
 def cyan(text):
     return colored(text, 'cyan', attrs=['bold'])
 
+
 class AskSearch(object):
-    
+
     def __init__(self, url, word, limit):
         self.results = ""
         self.totalresults = ""
@@ -50,24 +55,24 @@ class AskSearch(object):
         self.proxy = config["proxy"]
         self.userAgent = config["useragent"]
         self.counter = 0
-        
+
     def do_search(self):
         try:
             urly = self.url.format(page=str(self.page), word=self.word)
             headers = {'User-Agent': self.userAgent}
-            if(self.proxy):
+            if (self.proxy):
                 proxies = {self.proxy.scheme: "http://" + self.proxy.netloc}
-                r=requests.get(urly, headers=headers, proxies=proxies)
+                r = requests.get(urly, headers=headers, proxies=proxies)
             else:
-                r=requests.get(urly, headers=headers)
-                
+                r = requests.get(urly, headers=headers)
+
         except Exception as e:
             print(e)
             sys.exit(4)
-        
+
         self.results = r.content.decode(r.encoding)
         self.totalresults += self.results
-    
+
     def process(self):
         while (self.counter < self.limit):
             self.do_search()
@@ -75,12 +80,12 @@ class AskSearch(object):
             self.counter += 10
             self.page += 1
             print(green("[+] Searching in ASK:") + cyan(" {} results".format(str(self.counter))))
-            
+
     def get_emails(self):
         app_emailharvester.parser.extract(self.totalresults, self.word)
         return app_emailharvester.parser.emails()
-    
-    
+
+
 def search(domain, limit):
     url = "http://www.ask.com/web?q=%40{word}&page={page}"
     search = AskSearch(url, domain, limit)
@@ -94,4 +99,3 @@ class Plugin:
         config = conf
         app.register_plugin('ask', {'search': search})
         app_emailharvester = app
-        

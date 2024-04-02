@@ -1,0 +1,1 @@
+venv/Scripts/python ./EmailHarvester.py -d thinktalentindia.com -e all -s emails.txt -u "MyUserAgentString 1.0" --exclude baidu

@@ -21,7 +21,7 @@
     For more see the file 'LICENSE' for copying permission.
 """
 
-#config = None
+# config = None
 app_emailharvester = None
 
 
@@ -33,9 +33,8 @@ def search(domain, limit):
 
 
 class Plugin:
-    def __init__(self, app, conf):#
+    def __init__(self, app, conf):  #
         global app_emailharvester, config
-        #config = conf
+        # config = conf
         app.register_plugin('yahoo', {'search': search})
         app_emailharvester = app
-        

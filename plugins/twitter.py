@@ -21,7 +21,7 @@
     For more see the file 'LICENSE' for copying permission.
 """
 
-#config = None
+# config = None
 app_emailharvester = None
 
 
@@ -33,19 +33,14 @@ def search(domain, limit):
     app_emailharvester.init_search(yahooUrl, domain, limit, 1, 100, 'Yahoo + Twitter')
     app_emailharvester.process()
     all_emails += app_emailharvester.get_emails()
-    
+
     bingUrl = 'http://www.bing.com/search?q=site%3Atwitter.com+intitle:"on Twitter"+%40{word}&count=50&first={counter}'
     app_emailharvester.init_search(bingUrl, domain, limit, 0, 50, 'Bing + Twitter')
     app_emailharvester.process()
     all_emails += app_emailharvester.get_emails()
-    
+
     googleUrl = 'https://www.google.com/search?num=100&start={counter}&hl=en&q=site%3Atwitter.com+intitle:"on Twitter"+"%40{word}"'
     app_emailharvester.init_search(googleUrl, domain, limit, 0, 100, 'Google + Twitter')
-    app_emailharvester.process()
-    all_emails += app_emailharvester.get_emails()
-
-    url = 'http://www.baidu.com/search/s?wd=site%3Atwitter.com+intitle:"on Twitter"+"%40{word}"&pn={counter}'
-    app_emailharvester.init_search(url, domain, limit, 0, 10, 'Baidu + Twitter')
     app_emailharvester.process()
     all_emails += app_emailharvester.get_emails()
 
@@ -54,15 +49,14 @@ def search(domain, limit):
     app_emailharvester.process()
     all_emails += app_emailharvester.get_emails()
 
-    #dogpile seems to not support site:
-    
+    # dogpile seems to not support site:
+
     return all_emails
 
 
 class Plugin:
-    def __init__(self, app, conf):#
+    def __init__(self, app, conf):  #
         global app_emailharvester, config
-        #config = conf
+        # config = conf
         app.register_plugin('twitter', {'search': search})
         app_emailharvester = app
-        

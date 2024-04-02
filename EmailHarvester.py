@@ -45,6 +45,8 @@ import requests
 import validators
 from termcolor import colored
 
+from tor_test import proxies
+
 try:
     from urllib.parse import urlparse
 except ImportError:
@@ -135,10 +137,10 @@ class EmailHarvester(object):
             urly = self.url.format(counter=str(self.counter), word=self.word)
             headers = {'User-Agent': self.userAgent}
             if (self.proxy):
-                proxies = {self.proxy.scheme: "http://" + self.proxy.netloc}
+                # proxies = {self.proxy.scheme: "http://" + self.proxy.netloc}
                 r = requests.get(urly, headers=headers, proxies=proxies, timeout=10)
             else:
-                r = requests.get(urly, headers=headers, timeout=10)
+                r = requests.get(urly, headers=headers, proxies=proxies, timeout=10)
 
             if r.encoding is None:
                 r.encoding = 'UTF-8'

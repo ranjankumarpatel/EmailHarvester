@@ -1,4 +1,5 @@
 termcolor
 colorama
 requests
+requests[socks]
 validators
